@@ -15,7 +15,7 @@ class WeiboSpider(scrapy.Spider):
             self.start_uid = start_uid
 
         self.fans_url = 'https://m.weibo.cn/api/container/getIndex?containerid=231051_-_fans_-_'
-        self.user_url = 'https://m.weibo.cn/api/container/getIndex?containerid=100505'
+        self.mblog_url = 'https://m.weibo.cn/api/container/getIndex?containerid=107603'
         self.start_urls = [
             self.fans_url + self.start_uid,
         ]
@@ -31,8 +31,8 @@ class WeiboSpider(scrapy.Spider):
             fan_id = fan['user']['id']
             yield scrapy.Request(self.fans_url+str(fan_id),
                                  callback=self.parse)
-            yield scrapy.Request(self.user_url+str(fan_id),
-                                 callback=self.parse_user)
+            yield scrapy.Request(self.mblog_url+str(fan_id),
+                                 callback=self.parse_mblog)
 
-    def parse_user(self, response):
+    def parse_mblog(self, response):
         yield json.loads(response.body_as_unicode())
