@@ -5,12 +5,20 @@ import time
 
 class WeiboSpider(scrapy.Spider):
     name = "weibo"
-    uid = '3655689037'
-    fans_url = 'https://m.weibo.cn/api/container/getIndex?containerid=231051_-_fans_-_'
-    user_url = 'https://m.weibo.cn/api/container/getIndex?containerid=100505'
-    start_urls = [
-        fans_url + uid,
-    ]
+
+    def __init__(self, start_uid=None, *args, **kwargs):
+        super(WeiboSpider, self).__init__(*args, **kwargs)
+
+        if start_uid is None:
+            self.start_uid = '3655689037'
+        else:
+            self.start_uid = start_uid
+
+        self.fans_url = 'https://m.weibo.cn/api/container/getIndex?containerid=231051_-_fans_-_'
+        self.user_url = 'https://m.weibo.cn/api/container/getIndex?containerid=100505'
+        self.start_urls = [
+            self.fans_url + self.start_uid,
+        ]
 
     def parse(self, response):
         response_dict = json.loads(response.body_as_unicode())
