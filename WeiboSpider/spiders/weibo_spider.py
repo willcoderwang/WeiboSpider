@@ -25,7 +25,7 @@ class WeiboSpider(scrapy.Spider):
         yield response_dict
 
         # lower request frequency to avoid 403
-        time.sleep(1)
+        time.sleep(0.2)
 
         for fan in response_dict['data']['cards'][0]['card_group']:
             fan_id = fan['user']['id']
