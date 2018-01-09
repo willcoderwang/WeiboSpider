@@ -1,5 +1,6 @@
 import scrapy
 import json
+import time
 
 
 class WeiboSpider(scrapy.Spider):
@@ -14,6 +15,9 @@ class WeiboSpider(scrapy.Spider):
     def parse(self, response):
         response_dict = json.loads(response.body_as_unicode())
         yield response_dict
+
+        # lower request frequency to avoid 403
+        time.sleep(1)
 
         for fan in response_dict['data']['cards'][0]['card_group']:
             fan_id = fan['user']['id']
