@@ -7,7 +7,7 @@ class WeiboSpider(scrapy.Spider):
     name = "weibo"
 
     # lower request frequency to avoid 403
-    download_delay = 1
+    download_delay = 0.1
 
     def __init__(self, start_uid=None, *args, **kwargs):
         super(WeiboSpider, self).__init__(*args, **kwargs)
