@@ -2,6 +2,7 @@ import scrapy
 import json
 from urllib import parse as url_parse
 
+FOLLOWERS_COUNT_THREADHOLD = 10000
 
 class WeiboSpider(scrapy.Spider):
     name = "weibo"
@@ -35,7 +36,7 @@ class WeiboSpider(scrapy.Spider):
 
         for card in following_list['data']['cards'][0]['card_group']:
             followers_count = card['user']['followers_count']
-            if followers_count >= 10000:
+            if followers_count >= FOLLOWERS_COUNT_THREADHOLD:
                 uid = card['user']['id']
                 yield scrapy.Request(self.mblog_url.format(uid=uid),
                                      callback=self.parse_mblog)
